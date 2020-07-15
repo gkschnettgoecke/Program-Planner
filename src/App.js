@@ -5,31 +5,32 @@ import { ReactComponent as CogIcon } from "./icons/cog.svg";
 import { ReactComponent as ChevronIcon } from "./icons/chevron.svg";
 import { ReactComponent as ArrowIcon } from "./icons/arrow.svg";
 import { ReactComponent as BoltIcon } from "./icons/bolt.svg";
+import { useForm } from "react-hook-form";
 
 import React, { useState, useEffect, useRef } from "react";
 import { CSSTransition } from "react-transition-group";
 
 function App() {
-    const testEvent = [
+    const [sub_events, setSubEvents] = useState([
         { title: "Session 1", description: "App Sec", data: "", time: "" },
-        {
-            title: "Session 2",
-            description: "Clean Code",
-            data: "",
-            time: "",
-        },
+        { title: "Session 2", description: "Clean Code", date: "", time: "" },
         { title: "Session 3", description: "Dev ops", data: "", time: "" },
-    ];
-    const { sub_events, setSubEvents } = useState([]);
+    ]);
 
     const handleDelete = () => {};
+
+    const handleNewEvent = (data) => {
+        const newEvents = sub_events.concat(data);
+        setSubEvents(newEvents);
+        console.log(newEvents);
+    };
 
     return (
         <div className="App">
             <Navbar>
-                <NavItems />
+                <NavItems onAdd={handleNewEvent} />
             </Navbar>
-            <Events subEvents={testEvent} onDelete={handleDelete} />
+            <Events subEvents={sub_events} onDelete={handleDelete} />
         </div>
     );
 }
@@ -69,7 +70,7 @@ function NavItems(props) {
     return (
         <ul className="navbar-nav">
             <NavItem icon={<PlusIcon />} menu="plus">
-                <DropdownMenuPlus />
+                <DropdownMenuPlus onAdd={props.onAdd} />
             </NavItem>
 
             <NavItem icon={<CaretIcon />} menu="caret">
@@ -97,10 +98,11 @@ function DropdownMenuCaret(props) {
     );
 }
 
-function DropdownMenuPlus() {
+function DropdownMenuPlus(props) {
     const [activeMenu, setActiveMenu] = useState("main");
     const [menuHeight, setMenuHeight] = useState(null);
     const dropdownRef = useRef(null);
+    const { register, handleSubmit, errors } = useForm();
 
     useEffect(() => {
         setMenuHeight(dropdownRef.current?.firstChild.offsetHeight);
@@ -124,6 +126,11 @@ function DropdownMenuPlus() {
             </a>
         );
     }
+
+    const onSubmit = (data) => {
+        //console.log(data);
+        props.onAdd(data);
+    };
 
     return (
         <div
@@ -160,15 +167,46 @@ function DropdownMenuPlus() {
                     <DropdownItem goToMenu="main" leftIcon={<ArrowIcon />}>
                         <h2>Event Details</h2>
                     </DropdownItem>
-                    <DropdownItem leftIcon={<BoltIcon />}>Title:</DropdownItem>
-                    <DropdownItem leftIcon={<BoltIcon />}>
-                        Description:
-                    </DropdownItem>
-                    <DropdownItem leftIcon={<BoltIcon />}>Date:</DropdownItem>
-                    <DropdownItem leftIcon={<BoltIcon />}>Time:</DropdownItem>
-                    <DropdownItem goToMenu="main" leftIcon={<BoltIcon />}>
-                        Add
-                    </DropdownItem>
+
+                    <form onSubmit={handleSubmit(onSubmit)}>
+                        <DropdownItem leftIcon={<BoltIcon />}>
+                            Title:
+                            <input
+                                type="text"
+                                placeholder="Event Title"
+                                name="title"
+                                ref={register}
+                            />
+                        </DropdownItem>
+
+                        <DropdownItem leftIcon={<BoltIcon />}>
+                            Description:
+                            <input
+                                type="text"
+                                placeholder="Event Description"
+                                name="description"
+                                ref={register}
+                            />
+                        </DropdownItem>
+
+                        <DropdownItem leftIcon={<BoltIcon />}>
+                            Date:
+                            <input type="date" name="date" ref={register} />
+                        </DropdownItem>
+
+                        <DropdownItem leftIcon={<BoltIcon />}>
+                            Time:
+                            <input type="time" name="time" ref={register} />
+                        </DropdownItem>
+
+                        <DropdownItem>
+                            <input type="submit" />
+                        </DropdownItem>
+
+                        <DropdownItem goToMenu="main" leftIcon={<BoltIcon />}>
+                            Close
+                        </DropdownItem>
+                    </form>
                 </div>
             </CSSTransition>
         </div>
