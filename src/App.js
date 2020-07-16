@@ -12,9 +12,24 @@ import { CSSTransition } from "react-transition-group";
 
 function App() {
     const [sub_events, setSubEvents] = useState([
-        { title: "Session 1", description: "App Sec", data: "", time: "" },
-        { title: "Session 2", description: "Clean Code", date: "", time: "" },
-        { title: "Session 3", description: "Dev ops", data: "", time: "" },
+        {
+            title: "Session 1",
+            description: "App Sec",
+            date: "2020-07-11",
+            time: "03:09",
+        },
+        {
+            title: "Session 2",
+            description: "Clean Code",
+            date: "2020-07-5",
+            time: "03:09",
+        },
+        {
+            title: "Session 3",
+            description: "Dev ops",
+            date: "2020-07-3",
+            time: "03:09",
+        },
     ]);
 
     const handleDelete = () => {};
@@ -22,7 +37,7 @@ function App() {
     const handleNewEvent = (data) => {
         const newEvents = sub_events.concat(data);
         setSubEvents(newEvents);
-        console.log(newEvents);
+        //console.log(newEvents);
     };
 
     return (
@@ -217,10 +232,26 @@ function Events(props) {
     function Event(props) {
         return (
             <div className="event">
-                <h3>{props.subEvent.title}</h3>
-                <h3>{props.subEvent.description}</h3>
-                <h3>{props.subEvent.date}</h3>
-                <h3>{props.subEvent.time}</h3>
+                <ul>
+                    <li>
+                        <span>
+                            Title:{""}
+                            {props.subEvent.title}
+                        </span>
+                    </li>
+                    <li>
+                        Description:{""}
+                        {props.subEvent.description}
+                    </li>
+                    <li>
+                        Date:{""}
+                        {props.subEvent.date}
+                    </li>
+                    <li>
+                        Time:{""}
+                        {props.subEvent.time}
+                    </li>
+                </ul>
             </div>
         );
     }
@@ -237,7 +268,5 @@ function Events(props) {
         </div>
     );
 }
-
-function TestFunc(props) {}
 
 export default App;
