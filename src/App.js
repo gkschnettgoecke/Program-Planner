@@ -13,31 +13,35 @@ import { CSSTransition } from "react-transition-group";
 function App() {
     const [sub_events, setSubEvents] = useState([
         {
-            title: "Session 1",
+            title: "Session 1 (Example)",
             description: "App Sec",
             date: "2020-07-11",
             time: "03:09",
         },
         {
-            title: "Session 2",
+            title: "Session 2 (Example)",
             description: "Clean Code",
             date: "2020-07-5",
             time: "03:09",
         },
         {
-            title: "Session 3",
+            title: "Session 3 (Example)",
             description: "Dev ops",
             date: "2020-07-3",
             time: "03:09",
         },
     ]);
 
-    const handleDelete = () => {};
+    const handleDelete = (event) => {
+        const newEvents = sub_events.filter(
+            (subEvent) => event.title !== subEvent.title
+        );
+        setSubEvents(newEvents);
+    };
 
     const handleNewEvent = (data) => {
         const newEvents = sub_events.concat(data);
         setSubEvents(newEvents);
-        //console.log(newEvents);
     };
 
     return (
@@ -143,7 +147,6 @@ function DropdownMenuPlus(props) {
     }
 
     const onSubmit = (data) => {
-        //console.log(data);
         props.onAdd(data);
     };
 
@@ -214,8 +217,8 @@ function DropdownMenuPlus(props) {
                             <input type="time" name="time" ref={register} />
                         </DropdownItem>
 
-                        <DropdownItem>
-                            <input type="submit" />
+                        <DropdownItem leftIcon={<BoltIcon />}>
+                            <input type="submit" value="Add" />
                         </DropdownItem>
 
                         <DropdownItem goToMenu="main" leftIcon={<BoltIcon />}>
@@ -234,23 +237,18 @@ function Events(props) {
             <div className="event">
                 <ul>
                     <li>
-                        <span>
-                            Title:{""}
-                            {props.subEvent.title}
-                        </span>
+                        <span>Title: {props.subEvent.title}</span>
                     </li>
-                    <li>
-                        Description:{""}
-                        {props.subEvent.description}
-                    </li>
-                    <li>
-                        Date:{""}
-                        {props.subEvent.date}
-                    </li>
-                    <li>
-                        Time:{""}
-                        {props.subEvent.time}
-                    </li>
+                    <li>Description: {props.subEvent.description}</li>
+                    <li>Date: {props.subEvent.date}</li>
+                    <li>Time: {props.subEvent.time}</li>
+
+                    <button
+                        onClick={() => props.onDelete(props.subEvent)}
+                        className="delete-button"
+                    >
+                        Delete
+                    </button>
                 </ul>
             </div>
         );

@@ -155,6 +155,7 @@ a {
 }
 .menu-secondary-exit {
 }
+
 .menu-secondary-exit-active {
     transform: translateX(110%);
     transition: all var(--speed) ease;
@@ -163,26 +164,25 @@ a {
 .events {
     margin: 0;
     padding: 0;
-    /*background: #ff3772;*/
     font-family: sans-serif;
 }
 
 .event ul:hover {
-    transform: scale(1.06);
-    background-color: #39AF11;
+    transform: scale(1.04);
+    background-color: #0d851e;
 }
 
 .event ul {
     position: relative;
     width: 450px;
-    margin: 100px auto 0;
+    margin: 50px auto 0;
     padding: 10px;
     box-sizing: border-box;
-    background: rgba(0,0,0,.1);
-    box-shadow: inset 0 0 15px rgba(0,0,0,.2);
+    background: rgba(0, 0, 0, 0.1);
+    box-shadow: inset 0 0 15px rgba(0, 0, 0, 0.2);
     border-radius: 5px;
     overflow: hidden;
-    transition: .5s;
+    transition: 0.5s;
 }
 
 .event ul li {
@@ -194,4 +194,23 @@ a {
 }
 
 .event {
+}
+
+.delete-button {
+    cursor: pointer;
+    background-color: #f44336;
+    border: none;
+    color: white;
+    padding: 5px 5px;
+    text-align: center;
+    text-decoration: none;
+    display: flex;
+    float: right;
+
+    font-size: 13px;
+    border-radius: 6px;
+}
+
+.delete-button:hover {
+    background-color: #eb8a83;
 }
